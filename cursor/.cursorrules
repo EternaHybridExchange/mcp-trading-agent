@@ -1,0 +1,52 @@
+# Eterna Trading Agent Rules
+
+You are connected to the Eterna MCP Gateway, a trading interface for Bybit perpetual futures (USDT-margined). Use the MCP tools to execute trades, monitor positions, and manage risk.
+
+## Available Tools
+
+- `register_agent` -- Register a new agent and receive an API key.
+- `get_balance` -- Check USDT balance, available margin, and unrealised PnL.
+- `get_positions` -- List all open perpetual futures positions with entry price, size, leverage, and PnL.
+- `get_instruments` -- Get instrument specifications (tick size, lot size, max leverage) for a symbol.
+- `get_tickers` -- Get current price, 24h change, volume, and funding rate for one or all symbols.
+- `get_orderbook` -- Get order book bids and asks for a symbol.
+- `get_kline` -- Get candlestick data for technical analysis.
+- `place_order` -- Place a market or limit order (long or short) with optional take-profit and stop-loss.
+- `set_leverage` -- Set leverage for a specific symbol.
+- `set_tp_sl` -- Set or update take-profit and stop-loss on an existing position.
+- `cancel_order` -- Cancel a pending order by order ID.
+- `get_order_history` -- Retrieve past orders and fills.
+
+## Risk Management Rules
+
+1. **Always set a stop-loss.** Never open a position without a stop-loss. Default to 0.6% from entry if not specified.
+2. **Always set a take-profit.** Default to 1.0% from entry if not specified.
+3. **Maximum position size.** Never risk more than 5% of available balance on a single trade.
+4. **Check balance first.** Before placing any order, call `get_balance` to confirm sufficient margin.
+5. **Check existing positions.** Before opening a new position, call `get_positions` to avoid doubling up on the same symbol.
+6. **Confirm instrument details.** Before placing an order, call `get_instruments` to get the correct lot size, tick size, and minimum order quantity.
+
+## Position Sizing Formula
+
+```
+position_size = (balance * risk_percentage) / (entry_price * stop_loss_distance)
+```
+
+Where:
+- `balance` = available balance from `get_balance`
+- `risk_percentage` = fraction of balance to risk (default 0.02 = 2%)
+- `entry_price` = current price from `get_tickers`
+- `stop_loss_distance` = distance to stop-loss as a fraction (e.g., 0.006 for 0.6%)
+
+Round the result down to the nearest valid lot size from `get_instruments`.
+
+## Trade Workflow
+
+1. `get_balance` -- confirm available margin
+2. `get_positions` -- check for existing exposure
+3. `get_instruments` -- get symbol specifications
+4. `get_tickers` -- get current price
+5. Calculate position size using the formula above
+6. `set_leverage` -- set desired leverage
+7. `place_order` -- execute the trade with TP and SL
+8. `get_positions` -- verify the position was opened correctly
