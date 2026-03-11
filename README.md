@@ -2,7 +2,7 @@
 
 **Turn your IDE into a perpetual futures trading terminal. Ready-to-use configs and strategies for Claude Code, Cursor, and Claude Desktop.**
 
-**0.035% fees. Sub-account isolation. Copy config and trade.**
+**0.014% maker fees on futures. Sub-account isolation. Copy config and trade.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP Protocol](https://img.shields.io/badge/MCP-Protocol-blue.svg)](https://modelcontextprotocol.io)
