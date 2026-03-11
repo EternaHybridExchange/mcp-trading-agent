@@ -63,6 +63,17 @@ This repo focuses on IDE configs, but the same MCP server works with LangChain, 
 
 ---
 
+## Coming Soon
+
+- 130+ additional Bybit API endpoints (order management, position controls, kline data)
+- Code execution sandbox -- submit TypeScript strategies for isolated execution
+- Strategy runtime -- deploy strategies on cron, zero LLM at runtime
+- Backtesting engine with historical data replay
+
+See the full [roadmap](https://github.com/eterna-exchange/eterna-mcp/blob/main/ROADMAP.md).
+
+---
+
 ## Ecosystem
 
 | Repository | Description |
